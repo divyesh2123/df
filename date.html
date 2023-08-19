@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+        <label>
+            FirstName:
+        </label>
+
+        <input type="text" id="firstName" />
+
+
+        <label>
+           LastName:
+        </label>
+
+        <input type="text" id="lastName" />
+
+        <input type="button" value="Save"  onclick="SaveInformation()"/>
+
+
+        <table id="display"></table>
+    <script>
+
+        let employess = [];
+        let indexToEdit = -1;
+
+        function SaveInformation()
+        {
+            let obj = {
+                firstName: document.getElementById("firstName").value,
+                lastName : document.getElementById("lastName").value,
+            }
+
+            if(indexToEdit >=0)
+            {
+                employess[indexToEdit] = obj;
+
+            }
+            else
+            {
+            employess.push(obj);
+
+            }
+
+
+            display();
+            indexToEdit = -1;
+
+            document.getElementById("firstName").value= "";
+            document.getElementById("lastName").value = ""
+
+
+
+        }
+
+        function display()
+        {
+            let employeehtml = employess.map(function(value,index) {
+
+                return (`<tr><td>${value.firstName}</td><td>${value.lastName}</td>
+                        <td><button onclick="deleteInfo(${index})">Delete</button></td>
+                        <td><button onclick="editInfo(${index})">Edit</button></td>
+                    </tr>`)
+            })
+
+            document.getElementById("display").innerHTML = employeehtml.join(" ");
+        }
+
+        function deleteInfo(index)
+        {
+                employess.splice(index,1);
+                display();
+        }
+
+        function editInfo(index)
+        {
+            let obj = employess[index];
+            document.getElementById("firstName").value = obj.firstName;
+            document.getElementById("lastName").value = obj.lastName;
+            indexToEdit = index;
+
+
+        }
+
+    </script>
+    
+</body>
+</html>
